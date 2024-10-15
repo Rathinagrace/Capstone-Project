@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/rathi/OneDrive/Documents/Monica/Data analytics/Week 13 &amp; 14 Capstone project/Credit_Database.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1366"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,8:mainCardBase"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="CardBase" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="169"/><column index="2" value="116"/><column index="3" value="115"/><column index="4" value="80"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="CustomerBase" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="80"/><column index="2" value="52"/><column index="3" value="179"/><column index="4" value="232"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Fraud" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="142"/><column index="2" value="106"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="TransactionBase" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="142"/><column index="2" value="162"/><column index="3" value="169"/><column index="4" value="168"/><column index="5" value="197"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="Task 2.1">/* 
+Created by : Rathina Grace Monica Abraham Geoffrey
+Created on 3rd July 2024
+Description :Task 2.1: Using the 'Credit_Database.db' file, find the average sales for each customer segment using a SQL query */	
+SELECT
+	Customer_Segment,
+	Round(Avg( Transaction_Value),2) AS [Average Sales]
+FROM
+	CustomerBase AS cu
+INNER JOIN
+	CardBase AS ca
+ON
+	cu.Cust_ID = ca.Cust_ID
+INNER JOIN
+	TransactionBase AS tr
+ON
+	ca.Card_Number = tr.Credit_Card_ID
+Group BY
+	Customer_Segment
+	</sql><sql name="Task 2.2">/*  
+Created by : Rathina Grace Monica Abraham Geoffrey
+Created on 3rd July 2024
+Description :Task 2.2: Find the total number of fraudulent transactions and the total fraudulent amount using a SQL query */
+
+SELECT
+	count (fr.Transaction_ID) AS [TOtal Fradulent Transaction],
+	sum (tr.Transaction_Value) AS [Total Fradulent transaction amount]
+From 
+	TransactionBase AS tr
+INNER JOIN
+	Fraud AS fr
+ON
+	tr.Transaction_ID = fr. Transaction_ID	
+
+</sql><sql name="Tsk 1 row display">/* 
+Created by : Rathina Grace Monica Abraham Geoffrey
+Created on 3rd July 2024
+Description : Task 1: Using the 'Credit_Database.db' file, find the total number of customers with multiple cards using a SQL query. */
+
+SELECT	
+	MAX(Cust_ID)
+FROM
+	CardBase
+GROUP BY 
+	Cust_ID
+HAVING
+	count(*)&gt;1
+
+	
+/* Validating the code by checking the customer ID from the output for multiple cards */
+SELECT
+	Card_Family,
+	Cust_ID,
+	Card_Number
+FROM
+	CardBase
+WHERE
+	Cust_ID = 'CC96267';
+
+	</sql><sql name="Task 1">/* 
+Created by : Rathina Grace Monica Abraham Geoffrey
+Created on 3rd July 2024
+Description : Task 1: Using the 'Credit_Database.db' file, find the total number of customers with multiple cards using a SQL query. */
+SELECT
+	count( Cust_ID)  - count (DISTINCT(Cust_ID)) AS [Customers with Multiple Credit Cards]
+FROM
+	cardbase
+
+	
+	
+</sql><current_tab id="1"/></tab_sql></sqlb_project>
